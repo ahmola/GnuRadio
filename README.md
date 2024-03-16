@@ -98,3 +98,5 @@ GnuRadio는 라디오 처리 애플리케이션을 구성하는 흐름 그래프
 
 
 
+참고
+https://wiki.gnuradio.org/index.php?title=What_Is_GNU_Radio#A_modular,_flowgraph_based_Approach_to_Digital_Signal_Processing
