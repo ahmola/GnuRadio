@@ -21,7 +21,7 @@ Python List를 사용한다.
 ## GRC 속성 색상
 
 <ul>
-  <li style="color: red;">부동소수점:주황색</li>
-  <li></li>
-  <li></li>
+  <li>부동소수점: <span style="color: orange;">주황색</span></li>
+  <li>정수: <span style="color: green;">녹색</span></li>
+  <li>문자열: <span style="color: purple;">보라색</span></li>
 </ul>
