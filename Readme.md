@@ -1,4 +1,4 @@
-# GnuRadio?, SDR?
+# GnuRadio? SDR?
 
 GnuRadio는 무료 오픈소스 소프트웨어 개발 툴킷이다. SDR구현을 위한 신호 생성 블록을 제공한다.
 
