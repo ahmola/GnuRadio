@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: adalm_loopback
+    id: adalm_transmitter
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -22,7 +22,7 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: adalm_loopback
+    title: adalm_transmitter
     window_size: (1000,1000)
   states:
     bus_sink: false
@@ -33,18 +33,6 @@ options:
     state: enabled
 
 blocks:
-- name: URI
-  id: variable
-  parameters:
-    comment: ''
-    value: '"192.168.2.1"'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [304, 16.0]
-    rotation: 0
-    state: true
 - name: samp_rate
   id: variable
   parameters:
@@ -97,7 +85,7 @@ blocks:
     len_tag_key: ''
     samplerate: samp_rate
     type: fc32
-    uri: URI
+    uri: 192.168.2.2
   states:
     bus_sink: false
     bus_source: false
@@ -128,14 +116,14 @@ blocks:
     rfdc: 'False'
     samplerate: samp_rate
     type: fc32
-    uri: URI
+    uri: 192.168.2.2
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [712, 160.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: qtgui_sink_x_0
   id: qtgui_sink_x
   parameters:
@@ -162,12 +150,42 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 204.0]
+    coordinate: [1040, 212.0]
+    rotation: 0
+    state: disabled
+- name: qtgui_sink_x_1
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: samp_rate
+    comment: ''
+    fc: '0'
+    fftsize: '2048'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"Transmitter"'
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 380.0]
     rotation: 0
     state: true
 
 connections:
 - [analog_sig_source_x_0, '0', iio_pluto_sink_0, '0']
+- [analog_sig_source_x_0, '0', qtgui_sink_x_1, '0']
 - [iio_pluto_source_0, '0', qtgui_sink_x_0, '0']
 
 metadata:
