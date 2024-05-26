@@ -127,7 +127,7 @@ blocks:
       5910000000.0, 5920000000.0]'
     orient: Qt.QVBoxLayout
     type: real
-    value: '5890000000'
+    value: '2412000000'
     widget: combo_box
   states:
     bus_sink: false
@@ -216,6 +216,36 @@ blocks:
     bus_structure: null
     coordinate: [784, 12.0]
     rotation: 0
+    state: disabled
+- name: samp_rate
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    label0: ''
+    label1: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    labels: '["5 MHz", "10 MHz", "20 MHz"]'
+    num_opts: '0'
+    option0: '0'
+    option1: '1'
+    option2: '2'
+    option3: '3'
+    option4: '4'
+    options: '[5000000, 10000000, 20000000]'
+    orient: Qt.QVBoxLayout
+    type: real
+    value: '5000000'
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [784, 20.0]
+    rotation: 0
     state: enabled
 - name: sync_length
   id: variable
@@ -229,6 +259,113 @@ blocks:
     coordinate: [8, 148.0]
     rotation: 0
     state: enabled
+- name: throughput
+  id: variable
+  parameters:
+    comment: ''
+    value: zmq_message
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1160, 104.0]
+    rotation: 0
+    state: disabled
+- name: variable_0
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1264, 136.0]
+    rotation: 0
+    state: disabled
+- name: variable_config_0
+  id: variable_config
+  parameters:
+    comment: ''
+    config_file: default
+    option: key
+    section: main
+    type: real
+    value: '0'
+    writeback: None
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1256, 232.0]
+    rotation: 0
+    state: disabled
+- name: variable_struct_0
+  id: variable_struct
+  parameters:
+    comment: ''
+    field0: field0
+    field1: ''
+    field10: ''
+    field11: ''
+    field12: ''
+    field13: ''
+    field14: ''
+    field15: ''
+    field16: ''
+    field17: ''
+    field18: ''
+    field19: ''
+    field2: ''
+    field3: ''
+    field4: ''
+    field5: ''
+    field6: ''
+    field7: ''
+    field8: ''
+    field9: ''
+    value0: '0'
+    value1: '0'
+    value10: '0'
+    value11: '0'
+    value12: '0'
+    value13: '0'
+    value14: '0'
+    value15: '0'
+    value16: '0'
+    value17: '0'
+    value18: '0'
+    value19: '0'
+    value2: '0'
+    value3: '0'
+    value4: '0'
+    value5: '0'
+    value6: '0'
+    value7: '0'
+    value8: '0'
+    value9: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1240, 224.0]
+    rotation: 0
+    state: disabled
+- name: variable_tag_object_0
+  id: variable_tag_object
+  parameters:
+    comment: ''
+    key: pmt.intern("key")
+    offset: '0'
+    src: pmt.intern("src")
+    value: pmt.intern("value")
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1264, 260.0]
+    rotation: 0
+    state: disabled
 - name: window_size
   id: variable
   parameters:
@@ -241,6 +378,183 @@ blocks:
     coordinate: [8, 84.0]
     rotation: 0
     state: enabled
+- name: zmq_address
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tcp://192.168.2.10:5555"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1112, 32.0]
+    rotation: 0
+    state: true
+- name: analog_const_source_x_0
+  id: analog_const_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: throughput
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 832.0]
+    rotation: 0
+    state: disabled
+- name: analog_random_source_x_0
+  id: analog_random_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    max: '2'
+    maxoutbuf: '0'
+    min: '0'
+    minoutbuf: '0'
+    num_samps: '1000'
+    repeat: 'True'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 988.0]
+    rotation: 0
+    state: disabled
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: '1000'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [72, 884.0]
+    rotation: 0
+    state: disabled
+- name: audio_source_0
+  id: audio_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    device_name: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
+    ok_to_block: 'True'
+    samp_rate: '48000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [104, 864.0]
+    rotation: 0
+    state: disabled
+- name: audio_source_1
+  id: audio_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    device_name: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
+    ok_to_block: 'True'
+    samp_rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [72, 1000.0]
+    rotation: 0
+    state: disabled
+- name: blocks_char_to_float_0
+  id: blocks_char_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1288, 208.0]
+    rotation: 0
+    state: disabled
+- name: blocks_complex_to_interleaved_char_0
+  id: blocks_complex_to_interleaved_char
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale_factor: '1.0'
+    vector_output: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 624.0]
+    rotation: 0
+    state: true
+- name: blocks_complex_to_interleaved_char_1
+  id: blocks_complex_to_interleaved_char
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale_factor: '1.0'
+    vector_output: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1240, 224.0]
+    rotation: 0
+    state: disabled
+- name: blocks_complex_to_interleaved_char_2
+  id: blocks_complex_to_interleaved_char
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale_factor: '1.0'
+    vector_output: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [96, 792.0]
+    rotation: 0
+    state: true
 - name: blocks_complex_to_mag_0
   id: blocks_complex_to_mag
   parameters:
@@ -254,7 +568,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1016, 312]
+    coordinate: [1016, 320.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_mag_squared_0
@@ -285,7 +599,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 328.0]
+    coordinate: [456, 328.0]
     rotation: 0
     state: enabled
 - name: blocks_delay_0
@@ -304,7 +618,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 540.0]
+    coordinate: [536, 560.0]
     rotation: 0
     state: enabled
 - name: blocks_delay_0_0
@@ -326,6 +640,82 @@ blocks:
     coordinate: [280, 312.0]
     rotation: 0
     state: enabled
+- name: blocks_delay_1
+  id: blocks_delay
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    delay: '100'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [96, 840.0]
+    rotation: 0
+    state: disabled
+- name: blocks_delay_2
+  id: blocks_delay
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    delay: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [216, 880.0]
+    rotation: 0
+    state: disabled
+- name: blocks_delay_3
+  id: blocks_delay
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    delay: '100'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [96, 712.0]
+    rotation: 0
+    state: disabled
+- name: blocks_delay_4
+  id: blocks_delay
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    delay: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [120, 704.0]
+    rotation: 0
+    state: true
 - name: blocks_divide_xx_0
   id: blocks_divide_xx
   parameters:
@@ -362,6 +752,144 @@ blocks:
     coordinate: [768, 908]
     rotation: 180
     state: disabled
+- name: blocks_float_to_char_0
+  id: blocks_float_to_char
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 504.0]
+    rotation: 0
+    state: disabled
+- name: blocks_float_to_char_1
+  id: blocks_float_to_char
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [112, 784.0]
+    rotation: 0
+    state: disabled
+- name: blocks_float_to_complex_0
+  id: blocks_float_to_complex
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [136, 912.0]
+    rotation: 0
+    state: disabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 920.0]
+    rotation: 0
+    state: disabled
+- name: blocks_message_strobe_0
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: pmt.intern("TEST")
+    period: '1000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 648.0]
+    rotation: 0
+    state: disabled
+- name: blocks_message_strobe_random_0
+  id: blocks_message_strobe_random
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dist: blocks.STROBE_POISSON
+    maxoutbuf: '0'
+    mean: '1000'
+    minoutbuf: '0'
+    msg: pmt.intern("TEST")
+    std: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1016, 660.0]
+    rotation: 0
+    state: disabled
+- name: blocks_message_strobe_random_1
+  id: blocks_message_strobe_random
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dist: blocks.STROBE_POISSON
+    maxoutbuf: '0'
+    mean: '1000'
+    minoutbuf: '0'
+    msg: pmt.intern("TEST")
+    std: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1200, 188.0]
+    rotation: 0
+    state: disabled
+- name: blocks_message_strobe_random_2
+  id: blocks_message_strobe_random
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dist: blocks.STROBE_POISSON
+    maxoutbuf: '0'
+    mean: '1000'
+    minoutbuf: '0'
+    msg: pmt.intern("TEST")
+    std: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1216, 212.0]
+    rotation: 0
+    state: disabled
 - name: blocks_moving_average_xx_0
   id: blocks_moving_average_xx
   parameters:
@@ -379,7 +907,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [944, 180.0]
+    coordinate: [1008, 172.0]
     rotation: 0
     state: enabled
 - name: blocks_moving_average_xx_1
@@ -402,6 +930,51 @@ blocks:
     coordinate: [808, 284.0]
     rotation: 0
     state: enabled
+- name: blocks_msg_meta_to_pair_0
+  id: blocks_msg_meta_to_pair
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    keyin: key in
+    keyout: key out
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1000, 680.0]
+    rotation: 0
+    state: disabled
+- name: blocks_msgpair_to_var_0
+  id: blocks_msgpair_to_var
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    target: zmq_message
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1296, 96.0]
+    rotation: 0
+    state: disabled
+- name: blocks_msgpair_to_var_1
+  id: blocks_msgpair_to_var
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    target: freq
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1256, 288.0]
+    rotation: 0
+    state: disabled
 - name: blocks_multiply_xx_0
   id: blocks_multiply_xx
   parameters:
@@ -420,6 +993,22 @@ blocks:
     coordinate: [664, 296]
     rotation: 0
     state: enabled
+- name: blocks_short_to_char_0
+  id: blocks_short_to_char
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1264, 176.0]
+    rotation: 0
+    state: disabled
 - name: blocks_stream_to_vector_0
   id: blocks_stream_to_vector
   parameters:
@@ -435,9 +1024,83 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [944, 528.0]
+    coordinate: [904, 536.0]
     rotation: 0
     state: enabled
+- name: blocks_throttle_0
+  id: blocks_throttle
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 992.0]
+    rotation: 0
+    state: true
+- name: blocks_var_to_msg_0
+  id: blocks_var_to_msg
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msgname: zmq_message
+    target: freq
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1200, 224.0]
+    rotation: 0
+    state: disabled
+- name: blocks_vector_source_x_0
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: complex
+    vector: (0, 0, 0)
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 892.0]
+    rotation: 0
+    state: disabled
+- name: fec_ber_bf_0
+  id: fec_ber_bf
+  parameters:
+    affinity: ''
+    alias: ''
+    berlimit: '-7.0'
+    berminerrors: '100'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    test_mode: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [272, 664.0]
+    rotation: 0
+    state: true
 - name: fft_vxx_0
   id: fft_vxx
   parameters:
@@ -456,7 +1119,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [168, 672]
+    coordinate: [608, 668.0]
     rotation: 0
     state: enabled
 - name: foo_wireshark_connector_0
@@ -490,7 +1153,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 676]
+    coordinate: [1152, 680.0]
     rotation: 0
     state: enabled
 - name: ieee802_11_frame_equalizer_0
@@ -510,7 +1173,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [432, 672]
+    coordinate: [872, 668.0]
     rotation: 0
     state: enabled
 - name: ieee802_11_parse_mac_0
@@ -527,7 +1190,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 796.0]
+    coordinate: [1152, 776.0]
     rotation: 180
     state: enabled
 - name: ieee802_11_sync_long_0
@@ -564,7 +1227,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [304, 488.0]
+    coordinate: [424, 396.0]
     rotation: 0
     state: enabled
 - name: iio_pluto_sink_0
@@ -667,10 +1330,10 @@ blocks:
     filter: ''
     filter_source: '''Auto'''
     fpass: '0'
-    frequency: '2400000000'
+    frequency: freq
     fstop: '0'
     gain1: '''slow_attack'''
-    len_tag_key: packet_len
+    len_tag_key: ''
     manual_gain1: '64'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -678,12 +1341,141 @@ blocks:
     rfdc: 'True'
     samplerate: samp_rate
     type: fc32
-    uri: ''
+    uri: URI
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [24, 240.0]
+    rotation: 0
+    state: true
+- name: network_tcp_source_0
+  id: network_tcp_source
+  parameters:
+    addr: 127.0.0.1
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    port: '2000'
+    server: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1288, 700.0]
+    rotation: 0
+    state: disabled
+- name: network_tcp_source_1
+  id: network_tcp_source
+  parameters:
+    addr: 127.0.0.1
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    port: '5555'
+    server: 'True'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 804.0]
+    rotation: 0
+    state: disabled
+- name: network_tcp_source_2
+  id: network_tcp_source
+  parameters:
+    addr: 127.0.0.1
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    port: '2000'
+    server: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [88, 940.0]
+    rotation: 0
+    state: disabled
+- name: network_udp_source_0
+  id: network_udp_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    header: '0'
+    ipv6: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    notify_missed: 'True'
+    payloadsize: '1472'
+    port: '2000'
+    src_zeros: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [88, 892.0]
+    rotation: 0
+    state: disabled
+- name: network_udp_source_1
+  id: network_udp_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    header: '0'
+    ipv6: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    notify_missed: 'False'
+    payloadsize: '1472'
+    port: '2000'
+    src_zeros: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [72, 900.0]
+    rotation: 0
+    state: disabled
+- name: network_udp_source_2
+  id: network_udp_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    header: '0'
+    ipv6: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    notify_missed: 'True'
+    payloadsize: '1472'
+    port: '2000'
+    src_zeros: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 956.0]
     rotation: 0
     state: true
 - name: pdu_pdu_to_tagged_stream_0
@@ -700,7 +1492,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 836.0]
+    coordinate: [872, 832.0]
     rotation: 180
     state: true
 - name: qtgui_const_sink_x_0
@@ -792,9 +1584,245 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 828]
+    coordinate: [616, 824.0]
     rotation: 180
     state: enabled
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"UDP"'
+    nconnections: '1'
+    norm_window: 'False'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: window.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [472, 972.0]
+    rotation: 0
+    state: true
+- name: qtgui_number_sink_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'True'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '-1'
+    name: '"BER"'
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 796.0]
+    rotation: 0
+    state: true
+- name: qtgui_number_sink_1
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '-1'
+    name: '""'
+    nconnections: '1'
+    type: byte
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 980.0]
+    rotation: 0
+    state: disabled
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: samp_rate
+    comment: ''
+    fc: freq
+    fftsize: '1024'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"TCP"'
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [352, 956.0]
+    rotation: 0
+    state: disabled
 - name: qtgui_time_sink_x_0
   id: qtgui_time_sink_x
   parameters:
@@ -889,7 +1917,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1164, 520]
+    coordinate: [1156.0, 520]
     rotation: 270
     state: enabled
 - name: soapy_plutosdr_source_0
@@ -1808,21 +2836,189 @@ blocks:
     coordinate: [1160, 68.0]
     rotation: 0
     state: disabled
+- name: virtual_sink_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: error
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [192, 1016.0]
+    rotation: 0
+    state: disabled
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: stream
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 712.0]
+    rotation: 0
+    state: disabled
+- name: virtual_source_1
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: pluto
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 752.0]
+    rotation: 0
+    state: disabled
+- name: virtual_source_2
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1240, 200.0]
+    rotation: 0
+    state: disabled
+- name: virtual_source_3
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1304, 400.0]
+    rotation: 0
+    state: disabled
+- name: virtual_source_4
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: error
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 904.0]
+    rotation: 0
+    state: disabled
+- name: zeromq_pub_msg_sink_0
+  id: zeromq_pub_msg_sink
+  parameters:
+    address: ''
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: ''
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1288, 496.0]
+    rotation: 0
+    state: disabled
+- name: zeromq_sub_msg_source_0
+  id: zeromq_sub_msg_source
+  parameters:
+    address: zmq_address
+    affinity: ''
+    alias: ''
+    bind: 'False'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1160, 40.0]
+    rotation: 0
+    state: disabled
+- name: zeromq_sub_msg_source_1
+  id: zeromq_sub_msg_source
+  parameters:
+    address: ''
+    affinity: ''
+    alias: ''
+    bind: 'False'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1232, 456.0]
+    rotation: 0
+    state: disabled
+- name: zeromq_sub_source_0
+  id: zeromq_sub_source
+  parameters:
+    address: zmq_address
+    affinity: ''
+    alias: ''
+    comment: ''
+    hwm: '-1'
+    key: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    pass_tags: 'False'
+    timeout: '100'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [72, 876.0]
+    rotation: 0
+    state: disabled
 
 connections:
+- [analog_random_source_x_0, '0', virtual_sink_0, '0']
+- [audio_source_0, '0', blocks_float_to_char_1, '0']
+- [audio_source_1, '0', blocks_float_to_complex_0, '0']
+- [blocks_complex_to_interleaved_char_0, '0', fec_ber_bf_0, '0']
+- [blocks_complex_to_interleaved_char_2, '0', blocks_delay_4, '0']
 - [blocks_complex_to_mag_0, '0', blocks_divide_xx_0, '0']
 - [blocks_complex_to_mag_squared_0, '0', blocks_moving_average_xx_0, '0']
 - [blocks_conjugate_cc_0, '0', blocks_multiply_xx_0, '1']
 - [blocks_delay_0, '0', ieee802_11_sync_long_0, '1']
 - [blocks_delay_0_0, '0', blocks_conjugate_cc_0, '0']
 - [blocks_delay_0_0, '0', ieee802_11_sync_short_0, '0']
+- [blocks_delay_1, '0', fec_ber_bf_0, '1']
+- [blocks_delay_2, '0', fec_ber_bf_0, '1']
+- [blocks_delay_3, '0', fec_ber_bf_0, '1']
+- [blocks_delay_4, '0', fec_ber_bf_0, '1']
 - [blocks_divide_xx_0, '0', ieee802_11_sync_short_0, '2']
 - [blocks_divide_xx_0, '0', qtgui_time_sink_x_0, '0']
+- [blocks_float_to_char_1, '0', blocks_delay_3, '0']
+- [blocks_float_to_char_1, '0', blocks_delay_4, '0']
+- [blocks_float_to_complex_0, '0', blocks_complex_to_interleaved_char_2, '0']
+- [blocks_float_to_complex_0, '0', qtgui_sink_x_0, '0']
 - [blocks_moving_average_xx_0, '0', blocks_divide_xx_0, '1']
 - [blocks_moving_average_xx_1, '0', blocks_complex_to_mag_0, '0']
 - [blocks_moving_average_xx_1, '0', ieee802_11_sync_short_0, '1']
 - [blocks_multiply_xx_0, '0', blocks_moving_average_xx_1, '0']
 - [blocks_stream_to_vector_0, '0', fft_vxx_0, '0']
+- [blocks_throttle_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_vector_source_x_0, '0', blocks_complex_to_interleaved_char_2, '0']
+- [fec_ber_bf_0, '0', qtgui_number_sink_0, '0']
 - [fft_vxx_0, '0', ieee802_11_frame_equalizer_0, '0']
 - [foo_wireshark_connector_0, '0', blocks_file_sink_0, '0']
 - [ieee802_11_decode_mac_0, out, foo_wireshark_connector_0, in]
@@ -1835,9 +3031,20 @@ connections:
 - [iio_pluto_source_0, '0', blocks_complex_to_mag_squared_0, '0']
 - [iio_pluto_source_0, '0', blocks_delay_0_0, '0']
 - [iio_pluto_source_0, '0', blocks_multiply_xx_0, '0']
+- [iio_pluto_source_2, '0', blocks_complex_to_interleaved_char_0, '0']
 - [iio_pluto_source_2, '0', blocks_complex_to_mag_squared_0, '0']
 - [iio_pluto_source_2, '0', blocks_delay_0_0, '0']
 - [iio_pluto_source_2, '0', blocks_multiply_xx_0, '0']
+- [network_tcp_source_1, '0', blocks_delay_4, '0']
+- [network_tcp_source_2, '0', blocks_complex_to_interleaved_char_2, '0']
+- [network_tcp_source_2, '0', qtgui_sink_x_0, '0']
+- [network_udp_source_0, '0', blocks_complex_to_interleaved_char_2, '0']
+- [network_udp_source_0, '0', qtgui_sink_x_0, '0']
+- [network_udp_source_1, '0', blocks_complex_to_interleaved_char_2, '0']
+- [network_udp_source_1, '0', qtgui_sink_x_0, '0']
+- [network_udp_source_2, '0', blocks_complex_to_interleaved_char_2, '0']
+- [network_udp_source_2, '0', blocks_throttle_0, '0']
+- [network_udp_source_2, '0', qtgui_sink_x_0, '0']
 - [pdu_pdu_to_tagged_stream_0, '0', qtgui_const_sink_x_0, '0']
 - [soapy_plutosdr_source_1, '0', blocks_complex_to_mag_squared_0, '0']
 - [soapy_plutosdr_source_1, '0', blocks_delay_0_0, '0']
@@ -1845,6 +3052,12 @@ connections:
 - [uhd_usrp_source_0, '0', blocks_complex_to_mag_squared_0, '0']
 - [uhd_usrp_source_0, '0', blocks_delay_0_0, '0']
 - [uhd_usrp_source_0, '0', blocks_multiply_xx_0, '0']
+- [virtual_source_1, '0', blocks_delay_1, '0']
+- [virtual_source_4, '0', blocks_delay_3, '0']
+- [zeromq_sub_msg_source_0, out, blocks_delay_2, '0']
+- [zeromq_sub_msg_source_0, out, blocks_message_debug_0, print]
+- [zeromq_sub_msg_source_0, out, blocks_msgpair_to_var_0, inpair]
+- [zeromq_sub_source_0, '0', blocks_complex_to_interleaved_char_2, '0']
 
 metadata:
   file_format: 1
