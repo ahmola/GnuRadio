@@ -37,7 +37,7 @@ from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import gr, pdu
 from gnuradio import iio
-from gnuradio import network
+from gnuradio import zeromq
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
 import ieee802_11
@@ -82,7 +82,7 @@ class wifi_rx(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.zmq_address = zmq_address = "tcp://192.168.2.10:5555"
+        self.zmq_address = zmq_address = "tcp://127.0.0.1:5555"
         self.window_size = window_size = 48
         self.sync_length = sync_length = 320
         self.samp_rate = samp_rate = 5000000
@@ -152,6 +152,7 @@ class wifi_rx(gr.top_block, Qt.QWidget):
         self._chan_est_button_group.buttonClicked[int].connect(
             lambda i: self.set_chan_est(self._chan_est_options[i]))
         self.top_layout.addWidget(self._chan_est_group_box)
+        self.zeromq_sub_msg_source_3 = zeromq.sub_msg_source(zmq_address, 100, False)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             1024, #size
             samp_rate, #samp_rate
@@ -233,48 +234,6 @@ class wifi_rx(gr.top_block, Qt.QWidget):
         self.qtgui_number_sink_0.enable_autoscale(True)
         self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_number_sink_0_win)
-        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
-            1024, #size
-            window.WIN_BLACKMAN_hARRIS, #wintype
-            0, #fc
-            samp_rate, #bw
-            "UDP", #name
-            1,
-            None # parent
-        )
-        self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
-        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
-        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
-        self.qtgui_freq_sink_x_0.enable_autoscale(False)
-        self.qtgui_freq_sink_x_0.enable_grid(False)
-        self.qtgui_freq_sink_x_0.set_fft_average(1.0)
-        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
-        self.qtgui_freq_sink_x_0.enable_control_panel(False)
-        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
-
-
-
-        labels = ['', '', '', '', '',
-            '', '', '', '', '']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ["blue", "red", "green", "black", "cyan",
-            "magenta", "yellow", "dark red", "dark green", "dark blue"]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             48*10, #size
             "", #name
@@ -316,8 +275,8 @@ class wifi_rx(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
+        self.pdu_pdu_to_tagged_stream_3 = pdu.pdu_to_tagged_stream(gr.types.byte_t, '')
         self.pdu_pdu_to_tagged_stream_0 = pdu.pdu_to_tagged_stream(gr.types.complex_t, 'packet_len')
-        self.network_udp_source_2 = network.udp_source(gr.sizeof_gr_complex, 1, 2000, 0, 1472, True, False, True)
         # Create the options list
         self._lo_offset_options = [0, 6000000.0, 11000000.0]
         # Create the labels list
@@ -354,19 +313,17 @@ class wifi_rx(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self._gain_win)
         self.fft_vxx_0 = fft.fft_vcc(64, True, window.rectangular(64), True, 1)
         self.fec_ber_bf_0 = fec.ber_bf(False, 100, -7.0)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, 64)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_moving_average_xx_1 = blocks.moving_average_cc(window_size, 1, 4000, 1)
         self.blocks_moving_average_xx_0 = blocks.moving_average_ff(window_size  + 16, 1, 4000, 1)
         self.blocks_divide_xx_0 = blocks.divide_ff(1)
-        self.blocks_delay_4 = blocks.delay(gr.sizeof_char*1, 0)
+        self.blocks_delay_5 = blocks.delay(gr.sizeof_char*1, 1000000000)
         self.blocks_delay_0_0 = blocks.delay(gr.sizeof_gr_complex*1, 16)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, sync_length)
         self.blocks_conjugate_cc_0 = blocks.conjugate_cc()
         self.blocks_complex_to_mag_squared_0 = blocks.complex_to_mag_squared(1)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
-        self.blocks_complex_to_interleaved_char_2 = blocks.complex_to_interleaved_char(False, 1.0)
         self.blocks_complex_to_interleaved_char_0 = blocks.complex_to_interleaved_char(False, 1.0)
 
 
@@ -375,15 +332,15 @@ class wifi_rx(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.ieee802_11_decode_mac_0, 'out'), (self.ieee802_11_parse_mac_0, 'in'))
         self.msg_connect((self.ieee802_11_frame_equalizer_0, 'symbols'), (self.pdu_pdu_to_tagged_stream_0, 'pdus'))
+        self.msg_connect((self.zeromq_sub_msg_source_3, 'out'), (self.pdu_pdu_to_tagged_stream_3, 'pdus'))
         self.connect((self.blocks_complex_to_interleaved_char_0, 0), (self.fec_ber_bf_0, 0))
-        self.connect((self.blocks_complex_to_interleaved_char_2, 0), (self.blocks_delay_4, 0))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_divide_xx_0, 0))
         self.connect((self.blocks_complex_to_mag_squared_0, 0), (self.blocks_moving_average_xx_0, 0))
         self.connect((self.blocks_conjugate_cc_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.blocks_delay_0, 0), (self.ieee802_11_sync_long_0, 1))
         self.connect((self.blocks_delay_0_0, 0), (self.blocks_conjugate_cc_0, 0))
         self.connect((self.blocks_delay_0_0, 0), (self.ieee802_11_sync_short_0, 0))
-        self.connect((self.blocks_delay_4, 0), (self.fec_ber_bf_0, 1))
+        self.connect((self.blocks_delay_5, 0), (self.fec_ber_bf_0, 1))
         self.connect((self.blocks_divide_xx_0, 0), (self.ieee802_11_sync_short_0, 2))
         self.connect((self.blocks_divide_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_moving_average_xx_0, 0), (self.blocks_divide_xx_0, 1))
@@ -391,7 +348,6 @@ class wifi_rx(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_moving_average_xx_1, 0), (self.ieee802_11_sync_short_0, 1))
         self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_moving_average_xx_1, 0))
         self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.fec_ber_bf_0, 0), (self.qtgui_number_sink_0, 0))
         self.connect((self.fft_vxx_0, 0), (self.ieee802_11_frame_equalizer_0, 0))
         self.connect((self.ieee802_11_frame_equalizer_0, 0), (self.ieee802_11_decode_mac_0, 0))
@@ -402,9 +358,8 @@ class wifi_rx(gr.top_block, Qt.QWidget):
         self.connect((self.iio_pluto_source_2, 0), (self.blocks_complex_to_mag_squared_0, 0))
         self.connect((self.iio_pluto_source_2, 0), (self.blocks_delay_0_0, 0))
         self.connect((self.iio_pluto_source_2, 0), (self.blocks_multiply_xx_0, 0))
-        self.connect((self.network_udp_source_2, 0), (self.blocks_complex_to_interleaved_char_2, 0))
-        self.connect((self.network_udp_source_2, 0), (self.blocks_throttle_0, 0))
         self.connect((self.pdu_pdu_to_tagged_stream_0, 0), (self.qtgui_const_sink_x_0, 0))
+        self.connect((self.pdu_pdu_to_tagged_stream_3, 0), (self.blocks_delay_5, 0))
 
 
     def closeEvent(self, event):
@@ -442,10 +397,8 @@ class wifi_rx(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self._samp_rate_callback(self.samp_rate)
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.ieee802_11_frame_equalizer_0.set_bandwidth(self.samp_rate)
         self.iio_pluto_source_2.set_samplerate(self.samp_rate)
-        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
     def get_lo_offset(self):

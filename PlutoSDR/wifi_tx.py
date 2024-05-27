@@ -37,11 +37,13 @@ from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import iio
 from gnuradio import network
+from gnuradio import zeromq
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
 from wifi_phy_hier import wifi_phy_hier  # grc-generated hier_block
 import foo
 import ieee802_11
+import wifi_tx_epy_block_0 as epy_block_0  # embedded python block
 
 
 
@@ -83,13 +85,13 @@ class wifi_tx(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.zmq_address = zmq_address = "tcp://192.168.2.10:5555"
+        self.zmq_address = zmq_address = "tcp://127.0.0.1:5555"
         self.tx_gain = tx_gain = 0.75
         self.samp_rate = samp_rate = 5000000
-        self.pdu_length = pdu_length = 50
+        self.pdu_length = pdu_length = 20
         self.out_buf_size = out_buf_size = 96000
         self.lo_offset = lo_offset = 0
-        self.interval = interval = 100
+        self.interval = interval = 1000
         self.freq = freq = 2412000000
         self.encoding = encoding = 0
         self.URI = URI = "192.168.2.2"
@@ -113,10 +115,10 @@ class wifi_tx(gr.top_block, Qt.QWidget):
             lambda i: self.set_samp_rate(self._samp_rate_options[i]))
         # Create the radio buttons
         self.top_layout.addWidget(self._samp_rate_tool_bar)
-        self._pdu_length_range = Range(0, 100, 1, 50, 200)
+        self._pdu_length_range = Range(0, 100, 1, 20, 200)
         self._pdu_length_win = RangeWidget(self._pdu_length_range, self.set_pdu_length, "'pdu_length'", "counter_slider", int, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._pdu_length_win)
-        self._interval_range = Range(1, 15000, 1, 100, 200)
+        self._interval_range = Range(1, 15000, 1, 1000, 200)
         self._interval_win = RangeWidget(self._interval_range, self.set_interval, "'interval'", "counter_slider", int, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._interval_win)
         # Create the options list
@@ -160,6 +162,7 @@ class wifi_tx(gr.top_block, Qt.QWidget):
         self._encoding_button_group.buttonClicked[int].connect(
             lambda i: self.set_encoding(self._encoding_options[i]))
         self.top_layout.addWidget(self._encoding_group_box)
+        self.zeromq_pub_msg_sink_2 = zeromq.pub_msg_sink(zmq_address, 100, True)
         self.wifi_phy_hier_0 = wifi_phy_hier(
             bandwidth=samp_rate,
             chan_est=ieee802_11.LS,
@@ -170,7 +173,6 @@ class wifi_tx(gr.top_block, Qt.QWidget):
         self._tx_gain_range = Range(0, 1, 0.01, 0.75, 200)
         self._tx_gain_win = RangeWidget(self._tx_gain_range, self.set_tx_gain, "'tx_gain'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._tx_gain_win)
-        self.network_udp_sink_2 = network.udp_sink(gr.sizeof_gr_complex, 1, '127.0.0.1', 2000, 0, 1472, False)
         self.network_socket_pdu_0 = network.socket_pdu('TCP_SERVER', '', '52001', 10000, False)
         # Create the options list
         self._lo_offset_options = [0, 6000000.0, 11000000.0]
@@ -198,6 +200,7 @@ class wifi_tx(gr.top_block, Qt.QWidget):
         self.ieee802_11_mac_0 = ieee802_11.mac([0x23, 0x23, 0x23, 0x23, 0x23, 0x23], [0x42, 0x42, 0x42, 0x42, 0x42, 0x42], [0xff, 0xff, 0xff, 0xff, 0xff, 255])
         self.foo_packet_pad2_0 = foo.packet_pad2(False, False, 0.01, 100, 1000)
         self.foo_packet_pad2_0.set_min_output_buffer(96000)
+        self.epy_block_0 = epy_block_0.blk(max_msgs=1000000000)
         self.blocks_vector_source_x_0 = blocks.vector_source_c((0,), False, 1, [])
         self.blocks_probe_rate_0 = blocks.probe_rate(gr.sizeof_gr_complex*1, 500, 0.75)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(0.6)
@@ -209,15 +212,16 @@ class wifi_tx(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.blocks_message_strobe_0_0, 'strobe'), (self.epy_block_0, 'in'))
         self.msg_connect((self.blocks_message_strobe_0_0, 'strobe'), (self.ieee802_11_mac_0, 'app in'))
         self.msg_connect((self.blocks_probe_rate_0, 'rate'), (self.blocks_message_debug_0, 'print'))
+        self.msg_connect((self.epy_block_0, 'out'), (self.zeromq_pub_msg_sink_2, 'in'))
         self.msg_connect((self.ieee802_11_mac_0, 'phy out'), (self.wifi_phy_hier_0, 'mac_in'))
         self.msg_connect((self.network_socket_pdu_0, 'pdus'), (self.ieee802_11_mac_0, 'app in'))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.foo_packet_pad2_0, 0))
         self.connect((self.blocks_vector_source_x_0, 0), (self.wifi_phy_hier_0, 0))
         self.connect((self.foo_packet_pad2_0, 0), (self.blocks_probe_rate_0, 0))
         self.connect((self.foo_packet_pad2_0, 0), (self.iio_pluto_sink_0, 0))
-        self.connect((self.foo_packet_pad2_0, 0), (self.network_udp_sink_2, 0))
         self.connect((self.wifi_phy_hier_0, 0), (self.blocks_multiply_const_vxx_0, 0))
 
 
