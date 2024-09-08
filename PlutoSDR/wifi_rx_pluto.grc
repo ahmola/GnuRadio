@@ -265,6 +265,18 @@ blocks:
     coordinate: [104, 136.0]
     rotation: 0
     state: true
+- name: zmq_mobile
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tcp://172.20.10.5:5555"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 112.0]
+    rotation: 0
+    state: true
 - name: analog_const_source_x_0
   id: analog_const_source_x
   parameters:
@@ -1057,7 +1069,7 @@ blocks:
 - name: zeromq_pull_source_0
   id: zeromq_pull_source
   parameters:
-    address: zmq_address
+    address: zmq_mobile
     affinity: ''
     alias: ''
     comment: ''
