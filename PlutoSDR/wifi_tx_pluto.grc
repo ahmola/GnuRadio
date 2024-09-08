@@ -323,7 +323,7 @@ blocks:
     start: '0'
     step: '0.01'
     stop: '1'
-    value: '0.75'
+    value: '1'
     widget: counter_slider
   states:
     bus_sink: false
@@ -342,6 +342,18 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [656, 172.0]
+    rotation: 0
+    state: true
+- name: zmq_mobile
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tcp://172.20.10.5:5555"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [936, 172.0]
     rotation: 0
     state: true
 - name: blocks_head_4
@@ -628,7 +640,7 @@ blocks:
 - name: zeromq_push_sink_0
   id: zeromq_push_sink
   parameters:
-    address: zmq_address
+    address: zmq_mobile
     affinity: ''
     alias: ''
     bind: 'True'
