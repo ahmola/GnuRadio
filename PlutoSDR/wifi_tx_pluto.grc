@@ -33,6 +33,18 @@ options:
     state: enabled
 
 blocks:
+- name: NumItem
+  id: variable
+  parameters:
+    comment: ''
+    value: '3000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [888, 264.0]
+    rotation: 0
+    state: true
 - name: URI
   id: variable
   parameters:
@@ -128,7 +140,7 @@ blocks:
       5910000000.0, 5920000000.0]'
     orient: Qt.QVBoxLayout
     type: real
-    value: '2412000000'
+    value: '2484000000'
     widget: combo_box
   states:
     bus_sink: false
@@ -292,17 +304,17 @@ blocks:
     label2: ''
     label3: ''
     label4: ''
-    labels: '["5 MHz", "10 MHz", "20 MHz"]'
+    labels: '["5 MHz", "10 MHz", "40 MHz"]'
     num_opts: '0'
     option0: '0'
     option1: '1'
     option2: '2'
     option3: '3'
     option4: '4'
-    options: '[5000000, 10000000, 200000000]'
+    options: '[5000000, 10000000, 40000000]'
     orient: Qt.QVBoxLayout
     type: real
-    value: '5000000'
+    value: '40000000'
     widget: combo_box
   states:
     bus_sink: false
@@ -323,7 +335,7 @@ blocks:
     start: '0'
     step: '0.01'
     stop: '1'
-    value: '1'
+    value: '0.1'
     widget: counter_slider
   states:
     bus_sink: false
@@ -332,11 +344,11 @@ blocks:
     coordinate: [1096, 12.0]
     rotation: 0
     state: enabled
-- name: zmq_address
+- name: zmq_address1
   id: variable
   parameters:
     comment: ''
-    value: '"tcp://192.168.45.38:5555"'
+    value: '"tcp://192.168.45.169:8080"'
   states:
     bus_sink: false
     bus_source: false
@@ -344,16 +356,52 @@ blocks:
     coordinate: [656, 172.0]
     rotation: 0
     state: true
+- name: zmq_address2
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tcp://192.168.45.169:8081"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [656, 240.0]
+    rotation: 0
+    state: true
 - name: zmq_mobile
   id: variable
   parameters:
     comment: ''
-    value: '"tcp://172.20.10.5:5555"'
+    value: '"tcp://172.20.10.4:8080"'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [936, 172.0]
+    rotation: 0
+    state: true
+- name: zmq_school1
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tcp://172.100.14.56:8080"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1176, 248.0]
+    rotation: 0
+    state: true
+- name: zmq_school2
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tcp://172.100.14.56:8081"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1176, 328.0]
     rotation: 0
     state: true
 - name: blocks_head_4
@@ -364,7 +412,7 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    num_items: '50000'
+    num_items: NumItem
     type: complex
     vlen: '1'
   states:
@@ -373,7 +421,7 @@ blocks:
     bus_structure: null
     coordinate: [464, 612.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_message_debug_0
   id: blocks_message_debug
   parameters:
@@ -381,7 +429,6 @@ blocks:
     alias: ''
     comment: ''
     en_uvec: 'True'
-    log_level: info
   states:
     bus_sink: false
     bus_source: false
@@ -438,7 +485,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [232, 404.0]
+    coordinate: [232, 408.0]
     rotation: 180
     state: enabled
 - name: blocks_vector_source_x_0
@@ -464,40 +511,45 @@ blocks:
 - name: epy_block_4
   id: epy_block
   parameters:
+    NumItem: NumItem
     _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
       \ GRC will instantiate the first class it finds\nto get ports and parameters\
       \ of your block. The arguments to __init__  will\nbe the parameters. All of\
       \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
-      import time\nfrom gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other\
-      \ base classes are basic_block, decim_block, interp_block\n    \"\"\"Embedded\
-      \ Python Block example - a simple multiply const\"\"\"\n\n    def __init__(self):\
-      \  # only default arguments here\n        \"\"\"arguments to this function show\
-      \ up as parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n         \
-      \   self,\n            name='Transmit TimeStamp',   # will show up in GRC\n\
-      \            in_sig = [np.complex64],\n            out_sig = [np.int32]\n  \
-      \      )\n        self.start_time = None\n\t\n    def work(self, input_items,\
-      \ output_items):\n        if self.start_time is None:\n            self.start_time\
-      \ = time.time()\n            \n        if len(input_items) == 1:\n         \
-      \   print(f\"\\nLast Transmit Time : {self.start_time}\\n\")\n            output\
-      \ = output_items[0]\n            \n            #output = np.array(output, dtype=np.float64)\
-      \ float64 is not supported so only 64 allowed, also at receiver part\n     \
-      \       \n            fractional, integer = np.modf(self.start_time)\n     \
-      \       output[0] = integer;\n            # output[0] += np.round(self.start_time%100.0,\
-      \ 7)\n            # output[0] = output[0] + self.start_time/100 + (self.start_time\
-      \ - int(self.start_time))\n            print(output[0])\n             \n   \
-      \         return len(output)\n        \n        return 1\n"
+      import time\nimport sys\nfrom gnuradio import gr\n\n\nclass blk(gr.sync_block):\
+      \  # other base classes are basic_block, decim_block, interp_block\n    \"\"\
+      \"Embedded Python Block example - a simple multiply const\"\"\"\n\n    def __init__(self,\
+      \ NumItem = 1000):  # only default arguments here\n        \"\"\"arguments to\
+      \ this function show up as parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n\
+      \            self,\n            name='Transmit TimeStamp',   # will show up\
+      \ in GRC\n            in_sig = [np.complex64],\n            out_sig = [np.int32,\
+      \ np.int32]\n        )\n        self.start_time = None\n        self.count =\
+      \ 0\n        self.num_item = NumItem\n\t\n    def work(self, input_items, output_items):\n\
+      \        if self.start_time is None:\n            self.start_time = time.time()\n\
+      \            \n        if self.count < self.num_item:\n            self.count\
+      \ += 1\n            #output = np.array(output, dtype=np.float64) float64 is\
+      \ not supported so only 64 allowed, also at receiver part\n            \n  \
+      \          fractional, integer = np.modf(self.start_time)\n            \n  \
+      \          output_items[0][0] = int(integer)\n            output_items[1][0]\
+      \ = self.count\n            # output[0] += np.round(self.start_time%100.0, 7)\n\
+      \            # output[0] = output[0] + self.start_time/100 + (self.start_time\
+      \ - int(self.start_time))\n            \n            # print(f\"{self.count}\\\
+      n\")\n            \n            if self.count == self.num_item:\n          \
+      \      print(f\"\\n current time : {output_items[0][0]}, count : {output_items[1][0]}\
+      \ Transmition Completed\\n\")\n        \n               \n        return 2\n"
     affinity: ''
     alias: ''
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: ('Transmit TimeStamp', 'blk', [], [('0', 'complex', 1)], [('0', 'int',
-      1)], 'Embedded Python Block example - a simple multiply const', [])
+    _io_cache: ('Transmit TimeStamp', 'blk', [('NumItem', '1000')], [('0', 'complex',
+      1)], [('0', 'int', 1), ('1', 'int', 1)], 'Embedded Python Block example - a
+      simple multiply const', [])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [680, 696.0]
+    coordinate: [672, 712.0]
     rotation: 0
     state: enabled
 - name: foo_packet_pad2_0
@@ -543,11 +595,11 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    attenuation1: '10.0'
+    attenuation1: '10'
     bandwidth: '20000000'
-    buffer_size: '32768'
+    buffer_size: NumItem
     comment: ''
-    cyclic: 'False'
+    cyclic: 'True'
     filter: ''
     filter_source: '''Auto'''
     fpass: '0'
@@ -581,7 +633,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [216, 260.0]
+    coordinate: [200, 284.0]
     rotation: 0
     state: true
 - name: pdu_tagged_stream_to_pdu_0
@@ -640,10 +692,9 @@ blocks:
 - name: zeromq_push_sink_0
   id: zeromq_push_sink
   parameters:
-    address: zmq_mobile
+    address: zmq_address1
     affinity: ''
     alias: ''
-    bind: 'True'
     comment: ''
     hwm: '-1'
     pass_tags: 'False'
@@ -654,7 +705,26 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 668.0]
+    coordinate: [904, 628.0]
+    rotation: 0
+    state: true
+- name: zeromq_push_sink_0_0
+  id: zeromq_push_sink
+  parameters:
+    address: zmq_address2
+    affinity: ''
+    alias: ''
+    comment: ''
+    hwm: '-1'
+    pass_tags: 'False'
+    timeout: '100'
+    type: int
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [904, 756.0]
     rotation: 0
     state: true
 
@@ -666,6 +736,7 @@ connections:
 - [blocks_multiply_const_vxx_0, '0', foo_packet_pad2_0, '0']
 - [blocks_vector_source_x_0, '0', wifi_phy_hier_0, '0']
 - [epy_block_4, '0', zeromq_push_sink_0, '0']
+- [epy_block_4, '1', zeromq_push_sink_0_0, '0']
 - [foo_packet_pad2_0, '0', blocks_head_4, '0']
 - [ieee802_11_mac_0, phy out, wifi_phy_hier_0, mac_in]
 - [network_socket_pdu_0, pdus, ieee802_11_mac_0, app in]
@@ -676,4 +747,3 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.7.0
