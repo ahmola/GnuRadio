@@ -37,7 +37,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '50000'
+    value: '3000'
   states:
     bus_sink: false
     bus_source: false
@@ -139,7 +139,7 @@ blocks:
       5910000000.0, 5920000000.0]'
     orient: Qt.QVBoxLayout
     type: real
-    value: '2412000000'
+    value: '2484000000'
     widget: combo_box
   states:
     bus_sink: false
@@ -160,7 +160,7 @@ blocks:
     start: '0'
     step: '0.01'
     stop: '1'
-    value: '0.75'
+    value: '0.1'
     widget: counter_slider
   states:
     bus_sink: false
@@ -210,17 +210,17 @@ blocks:
     label2: ''
     label3: ''
     label4: ''
-    labels: '["5 MHz", "10 MHz", "20 MHz"]'
+    labels: '["5 MHz ", "10 MHz", "40 MHz"]'
     num_opts: '0'
     option0: '0'
     option1: '1'
     option2: '2'
     option3: '3'
     option4: '4'
-    options: '[5000000, 10000000, 20000000]'
+    options: '[5000000, 10000000, 40000000]'
     orient: Qt.QVBoxLayout
     type: real
-    value: '5000000'
+    value: '40000000'
     widget: combo_box
   states:
     bus_sink: false
@@ -253,47 +253,78 @@ blocks:
     coordinate: [8, 84.0]
     rotation: 0
     state: enabled
-- name: zmq_address
+- name: zmq_address1
   id: variable
   parameters:
     comment: ''
-    value: '"tcp://192.168.45.38:5555"'
+    value: '"tcp://192.168.45.169:8080"'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [104, 136.0]
+    coordinate: [1040, 12.0]
     rotation: 0
     state: true
-- name: zmq_mobile
+- name: zmq_address2
   id: variable
   parameters:
     comment: ''
-    value: '"tcp://172.20.10.5:5555"'
+    value: '"tcp://192.168.45.169:8081"'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1128, 112.0]
+    coordinate: [1040, 76.0]
     rotation: 0
     state: true
-- name: analog_const_source_x_0
-  id: analog_const_source_x
+- name: zmq_mobile1
+  id: variable
   parameters:
-    affinity: ''
-    alias: ''
     comment: ''
-    const: throughput
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: byte
+    value: '"tcp://172.20.10.4:8080"'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 832.0]
+    coordinate: [1216, 12.0]
     rotation: 0
-    state: disabled
+    state: true
+- name: zmq_mobile2
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tcp://172.20.10.4:8081"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1216, 76.0]
+    rotation: 0
+    state: true
+- name: zmq_school1
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tcp://172.100.15.184:8080"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [872, 12.0]
+    rotation: 0
+    state: true
+- name: zmq_school2
+  id: variable
+  parameters:
+    comment: ''
+    value: '"tcp://172.100.15.184:8081"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [872, 76.0]
+    rotation: 0
+    state: true
 - name: blocks_complex_to_mag_0
   id: blocks_complex_to_mag
   parameters:
@@ -351,13 +382,14 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: '1'
+    showports: 'False'
     type: complex
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 512.0]
+    coordinate: [544, 516.0]
     rotation: 0
     state: enabled
 - name: blocks_delay_0_0
@@ -370,6 +402,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: '1'
+    showports: 'False'
     type: complex
     vlen: '1'
   states:
@@ -434,7 +467,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 276.0]
+    coordinate: [744, 284.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_xx_0
@@ -470,10 +503,10 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [912, 520.0]
+    coordinate: [920, 520.0]
     rotation: 0
     state: enabled
-- name: blocks_vector_source_x_1
+- name: blocks_vector_source_x_0
   id: blocks_vector_source_x
   parameters:
     affinity: ''
@@ -483,15 +516,47 @@ blocks:
     minoutbuf: '0'
     repeat: 'True'
     tags: '[]'
-    type: complex
-    vector: (0, 0, 0)
+    type: byte
+    vector: '[120]'
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1456, 376.0]
-    rotation: 0
+    coordinate: [312, 612.0]
+    rotation: 180
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other base classes\
+      \ are basic_block, decim_block, interp_block\n    \"\"\"Embedded Python Block\
+      \ example - a simple multiply const\"\"\"\n\n    def __init__(self):  # only\
+      \ default arguments here\n        \"\"\"arguments to this function show up as\
+      \ parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n            self,\n\
+      \            name='Strobe Generator',   # will show up in GRC\n            in_sig=[np.int8],\n\
+      \            out_sig=None\n        )\n        self.first_run = True\n      \
+      \  \n    def work(self, input_items, output_items):\n        if self.first_run:\n\
+      \    \t    self.first_run = False\n    \t    return 1\n    \n        payload\
+      \ = ''.join([chr(x) for x in input_items[0] if 0 <= x < 128])\n        print(f\"\
+      Payload: {payload}\")\n        return 1\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Strobe Generator', 'blk', [], [('0', 'byte', 1)], [], 'Embedded Python
+      Block example - a simple multiply const', [])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 720.0]
+    rotation: 180
     state: disabled
 - name: epy_block_4
   id: epy_block
@@ -499,23 +564,50 @@ blocks:
     _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
       \ GRC will instantiate the first class it finds\nto get ports and parameters\
       \ of your block. The arguments to __init__  will\nbe the parameters. All of\
-      \ them are required to have default values!\n\"\"\"\n\nimport time\nimport numpy\
-      \ as np\nfrom gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other base\
-      \ classes are basic_block, decim_block, interp_block\n    \"\"\"Embedded Python\
-      \ Block example - a simple multiply const\"\"\"\n\n    def __init__(self, num_item=50000):\
-      \  # only default arguments here\n        \"\"\"arguments to this function show\
-      \ up as parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n         \
-      \   self,\n            name='Receiver TimeStamp',   # will show up in GRC\n\
-      \            in_sig=[np.int8, np.int32],\n            out_sig=None\n       \
-      \ )\n        \n        self.start_time = None\n        self.end_time = None\n\
-      \        self.data_size = 0.0\n        self.count = 0\n        self.num_item\
-      \ = num_item\n\n    def work(self, input_items, output_items):\n        # print(input_items[1][0])\n\
-      \        if len(input_items[0]) != 0:\n            milsec, sec = np.modf(time.time())\n\
-      \            self.start_time = input_items[1][0]\n            self.end_time\
-      \ = int(sec)\n            self.data_size += len(input_items[0])\n          \
-      \  self.count += 1\n            print(f\"\\n Throughput : {self.data_size/(self.end_time\
-      \ - self.start_time)} bps, Packet Loss : {(1 - (self.count/self.num_item))*100}\
-      \ % \\n\")\n        \n        return len(input_items[0])\n"
+      \ them are required to have default values!\n\"\"\"\n\nimport time\nimport os\n\
+      import csv\nimport numpy as np\nfrom gnuradio import gr\n\n\nclass blk(gr.sync_block):\
+      \  # other base classes are basic_block, decim_block, interp_block\n    \"\"\
+      \"Embedded Python Block example - a simple multiply const\"\"\"\n\n    def __init__(self,\
+      \ num_item=50000):  # only default arguments here\n        \"\"\"arguments to\
+      \ this function show up as parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n\
+      \            self,\n            name='Receiver TimeStamp',   # will show up\
+      \ in GRC\n            in_sig=[np.int8, np.int32, np.int32, np.float32],\n  \
+      \          out_sig=None\n        )\n        \n        self.start_time = None\n\
+      \        self.end_time = None\n        self.data_size = 0.0\n        self.count\
+      \ = 0\n        self.last_index = 0\n        self.num_item = num_item\n     \
+      \   self.throughput = 0.0\n        self.ber = 0.0\n        self.packet_loss\
+      \ = 0.0\n        self.path = \"\"\n        self.header = [\"Throughput (bit\
+      \ per sec)\", \"Bit Error Rate (%)\", \"Packet Loss (%)\"]\n\n    def work(self,\
+      \ input_items, output_items):\n        if len(input_items[0]) != 0 & input_items[2][0]\
+      \ <= self.num_item:\n            self.last_index = input_items[2][0]\n     \
+      \       \n            if self.last_index != 0:\n                milsec, sec\
+      \ = np.modf(time.time())\n                self.start_time = input_items[1][0]\n\
+      \                self.end_time = int(sec)\n                self.data_size +=\
+      \ len(input_items[0])\n                self.count += 1\n                self.packet_loss\
+      \ = (1 - (self.count / self.num_item)) * 100\n                self.ber = (10\
+      \ ** input_items[3][0]) * 100\n                self.throughput = self.data_size/(self.end_time\
+      \ - self.start_time)\n                \n                # [Throughput(bps),\
+      \ Bit Error Rate(%), Packet Loss(%)]\n                data = [self.throughput,\
+      \ self.ber, self.packet_loss]\n                # text = f\"Throughput : {self.throughput}\
+      \ bps, Bit Error Rate : {self.ber} %, Packet Loss = {self.packet_loss} %, Lastest\
+      \ Index = {self.last_index} \\n\"\n                # print(f\"\\n {text} \\\
+      n\")\n                \n                self.path = \"test.csv\"\n         \
+      \       file_exists = os.path.isfile(self.path)\n                lines = []\n\
+      \                if file_exists:\n                    with open(self.path, mode='r',\
+      \ newline='', encoding='utf-8') as file:\n                        reader = list(csv.reader(file))\n\
+      \                        rows = sum(1 for row in reader)\n                 \
+      \       \n                        #if rows == 2:\n                        #\
+      \    lines.append(reader[1])\n                        if rows >= 2 and self.count\
+      \ == 1:\n                            for r in reader[1:]:\n                \
+      \                lines.append(r)\n                        elif rows > 2:\n \
+      \                           for r in reader[1:-1]:\n                       \
+      \         lines.append(r)\n                \n                lines.append(data)\n\
+      \                \n                with open(self.path, mode=\"w\", newline='',encoding=\"\
+      utf-8\") as file:\n                    writer = csv.writer(file)\n         \
+      \           writer.writerow(self.header)\n                    writer.writerows(lines)\n\
+      \                    \n                if self.last_index == self.num_item:\n\
+      \                    print(\"\\nReceive Perfectly Done!\\n\")\n            \
+      \        os._exit(0)\n        \n        return len(input_items[0])\n"
     affinity: ''
     alias: ''
     comment: ''
@@ -524,14 +616,14 @@ blocks:
     num_item: NumItem
   states:
     _io_cache: ('Receiver TimeStamp', 'blk', [('num_item', '50000')], [('0', 'byte',
-      1), ('1', 'int', 1)], [], 'Embedded Python Block example - a simple multiply
-      const', ['num_item'])
+      1), ('1', 'int', 1), ('2', 'int', 1), ('3', 'float', 1)], [], 'Embedded Python
+      Block example - a simple multiply const', ['num_item'])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [264, 768.0]
+    coordinate: [512, 856.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: epy_block_9
   id: epy_block
   parameters:
@@ -545,26 +637,28 @@ blocks:
       \ default arguments here\n        \"\"\"arguments to this function show up as\
       \ parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n            self,\n\
       \            name='print Python Block',   # will show up in GRC\n          \
-      \  in_sig=[np.int32],\n            out_sig=[np.int32]\n        )\n        #\
-      \ if an attribute with the same name as a parameter is found,\n        # a callback\
-      \ is registered (properties work, too).\n\n    def work(self, input_items, output_items):\n\
-      \        if input_items[0][0] != 0:\n            output_items[0][:] = input_items[0][0]\n\
-      \            \n        return 1\n"
+      \  in_sig=[np.int32, np.int32],\n            out_sig=[np.int32, np.int32]\n\
+      \        )\n        # if an attribute with the same name as a parameter is found,\n\
+      \        # a callback is registered (properties work, too).\n\n    def work(self,\
+      \ input_items, output_items):\n        if input_items[0][0] != 0:\n        \
+      \    output_items[0][:] = input_items[0][0]\n            output_items[1][:]\
+      \ = input_items[1][0]\n            \n        return 2\n"
     affinity: ''
     alias: ''
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: ('print Python Block', 'blk', [], [('0', 'int', 1)], [('0', 'int',
-      1)], 'Embedded Python Block example - a simple multiply const', [])
+    _io_cache: ('print Python Block', 'blk', [], [('0', 'int', 1), ('1', 'int', 1)],
+      [('0', 'int', 1), ('1', 'int', 1)], 'Embedded Python Block example - a simple
+      multiply const', [])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [256, 944.0]
+    coordinate: [312, 1016.0]
     rotation: 0
-    state: true
-- name: fec_ber_bf_1
+    state: disabled
+- name: fec_ber_bf_0
   id: fec_ber_bf
   parameters:
     affinity: ''
@@ -579,9 +673,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 680.0]
+    coordinate: [136, 632.0]
     rotation: 180
-    state: true
+    state: enabled
 - name: fft_vxx_0
   id: fft_vxx
   parameters:
@@ -617,26 +711,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 624.0]
+    coordinate: [456, 620.0]
     rotation: 180
     state: enabled
-- name: ieee802_11_decode_mac_0_0
-  id: ieee802_11_decode_mac
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    debug: 'False'
-    log: 'False'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [64, 792.0]
-    rotation: 0
-    state: disabled
 - name: ieee802_11_frame_equalizer_0
   id: ieee802_11_frame_equalizer
   parameters:
@@ -718,7 +795,7 @@ blocks:
     alias: ''
     bandwidth: '20000000'
     bbdc: 'True'
-    buffer_size: '32768'
+    buffer_size: NumItem
     comment: ''
     filter: ''
     filter_source: '''Auto'''
@@ -727,7 +804,7 @@ blocks:
     fstop: '0'
     gain1: '''slow_attack'''
     len_tag_key: ''
-    manual_gain1: '30'
+    manual_gain1: '10'
     maxoutbuf: '0'
     minoutbuf: '0'
     quadrature: 'True'
@@ -742,26 +819,6 @@ blocks:
     coordinate: [32, 320.0]
     rotation: 0
     state: true
-- name: network_tcp_source_1
-  id: network_tcp_source
-  parameters:
-    addr: 127.0.0.1
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    port: '5555'
-    server: 'True'
-    type: byte
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [80, 804.0]
-    rotation: 0
-    state: disabled
 - name: pdu_pdu_to_stream_x_2
   id: pdu_pdu_to_stream_x
   parameters:
@@ -906,7 +963,7 @@ blocks:
     coordinate: [880, 736.0]
     rotation: 0
     state: enabled
-- name: qtgui_number_sink_2
+- name: qtgui_number_sink_0
   id: qtgui_number_sink
   parameters:
     affinity: ''
@@ -948,7 +1005,7 @@ blocks:
     label9: ''
     max: '1'
     min: '-1'
-    name: '"Bit Error Rate"'
+    name: '"BER"'
     nconnections: '1'
     type: float
     unit1: ''
@@ -966,9 +1023,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [48, 772.0]
+    coordinate: [120, 516.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: qtgui_time_sink_x_0
   id: qtgui_time_sink_x
   parameters:
@@ -1069,9 +1126,10 @@ blocks:
 - name: zeromq_pull_source_0
   id: zeromq_pull_source
   parameters:
-    address: zmq_mobile
+    address: zmq_school1
     affinity: ''
     alias: ''
+    bind: 'False'
     comment: ''
     hwm: '-1'
     maxoutbuf: '0'
@@ -1084,9 +1142,31 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 916.0]
+    coordinate: [32, 812.0]
     rotation: 0
-    state: true
+    state: enabled
+- name: zeromq_pull_source_0_0
+  id: zeromq_pull_source
+  parameters:
+    address: zmq_school2
+    affinity: ''
+    alias: ''
+    bind: 'False'
+    comment: ''
+    hwm: '-1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    pass_tags: 'False'
+    timeout: '100'
+    type: int
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 908.0]
+    rotation: 0
+    state: enabled
 - name: zeromq_sub_msg_source_2
   id: zeromq_sub_msg_source
   parameters:
@@ -1111,6 +1191,7 @@ blocks:
     address: zmq_address
     affinity: ''
     alias: ''
+    bind: 'False'
     comment: ''
     hwm: '-1'
     key: ''
@@ -1142,8 +1223,11 @@ connections:
 - [blocks_moving_average_xx_1, '0', ieee802_11_sync_short_0, '1']
 - [blocks_multiply_xx_0, '0', blocks_moving_average_xx_1, '0']
 - [blocks_stream_to_vector_0, '0', fft_vxx_0, '0']
+- [blocks_vector_source_x_0, '0', fec_ber_bf_0, '0']
 - [epy_block_9, '0', epy_block_4, '1']
-- [fec_ber_bf_1, '0', qtgui_number_sink_2, '0']
+- [epy_block_9, '1', epy_block_4, '2']
+- [fec_ber_bf_0, '0', epy_block_4, '3']
+- [fec_ber_bf_0, '0', qtgui_number_sink_0, '0']
 - [fft_vxx_0, '0', ieee802_11_frame_equalizer_0, '0']
 - [ieee802_11_decode_mac_0, out, ieee802_11_parse_mac_0, in]
 - [ieee802_11_frame_equalizer_0, '0', ieee802_11_decode_mac_0, '0']
@@ -1155,11 +1239,15 @@ connections:
 - [iio_pluto_source_2, '0', blocks_complex_to_mag_squared_0, '0']
 - [iio_pluto_source_2, '0', blocks_delay_0_0, '0']
 - [iio_pluto_source_2, '0', blocks_multiply_xx_0, '0']
+- [pdu_pdu_to_stream_x_2, '0', epy_block_0, '0']
 - [pdu_pdu_to_stream_x_2, '0', epy_block_4, '0']
-- [pdu_pdu_to_stream_x_2, '0', fec_ber_bf_1, '0']
-- [pdu_pdu_to_stream_x_2, '0', fec_ber_bf_1, '1']
+- [pdu_pdu_to_stream_x_2, '0', fec_ber_bf_0, '1']
 - [pdu_pdu_to_tagged_stream_0, '0', qtgui_const_sink_x_0, '0']
+- [zeromq_pull_source_0, '0', epy_block_4, '1']
 - [zeromq_pull_source_0, '0', epy_block_9, '0']
+- [zeromq_pull_source_0_0, '0', epy_block_4, '2']
+- [zeromq_pull_source_0_0, '0', epy_block_9, '1']
 
 metadata:
   file_format: 1
+  grc_version: 3.10.7.0
